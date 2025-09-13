@@ -34,11 +34,11 @@ def high_noon():
             pozycja -= 5
             pygame.display.update()
 
-    y = przesun_celownik(y, -6, cel_dolny, "pion",3)
-    x = przesun_celownik(x, -6, cel_boczny, "poziom",3)
+    y = przesun_celownik(y, -5, cel_dolny, "pion",2)
+    x = przesun_celownik(x, -5, cel_boczny, "poziom",2)
 
     pygame.time.wait(100)
-    okno.fill((255,255,255s))
+    okno.fill((255,255,255))
     pygame.display.update()    
     pygame.time.wait(1000)
     return x, y
