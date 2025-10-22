@@ -2,6 +2,7 @@ import pygame
 import time
 import random
 
+print("zklonowana wersja ale i tak jej niepoprawiłem i przepraszam że niejest dokładnie jak w poleceniu ale niema tu sensownch printów do edcji")
 x_okna=1300
 y_okna=800
 
