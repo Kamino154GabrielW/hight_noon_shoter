@@ -1,5 +1,4 @@
 import pygame
-import time
 import random
 from pygame import mixer
 pygame.mixer.init()
@@ -16,6 +15,8 @@ y_okna=800
 
 x_celownik=-100
 y_celownik=-100
+
+przspieszenie=10
 
 x_wnik=0
 y_wnik=0
@@ -35,7 +36,7 @@ OFFSET_SUBTRACT = 150
 font = pygame.font.SysFont("Comic Sans MS", 24)
 
 
-def high_noon():
+def high_noon(przspieszenie):
     cel_dolny = pygame.image.load("celownik_dolny.png")
     cel_boczny = pygame.image.load("celownik_boczny.png")
 
@@ -61,8 +62,8 @@ def high_noon():
             pozycja -= 10
             pygame.display.update()
 
-    y = przesun_celownik(y, -10, cel_dolny, "pion",8)
-    x = przesun_celownik(x, -10, cel_boczny, "poziom",8)
+    y = przesun_celownik(y, -10, cel_dolny, "pion",przspieszenie)
+    x = przesun_celownik(x, -10, cel_boczny, "poziom",przspieszenie)
 
     pygame.time.wait(500)
     okno.fill((255,255,255))
@@ -81,6 +82,7 @@ def bilt_tlo():
         if  x_celownik !=0 and y_celownik!=0:
             okno.blit(dziura, (x_celownik-10, y_celownik-10))
         okno.blit(wnik_text,(500,100))
+        okno.blit(przspieszenie_text,(50,20))
         
 
 
@@ -93,6 +95,10 @@ dziura=pygame.image.load("trafienie.png")
 while loop==True:
         wnik_str="wynik:"+str(wynik)
         wnik_text = font.render(wnik_str, True, (255, 255, 255))
+
+        przspieszenie_str=f"<{przspieszenie}>"
+        przspieszenie_text=font.render(przspieszenie_str, True, (255, 255, 255))
+        
         bilt_tlo()
         
         
@@ -101,8 +107,19 @@ while loop==True:
                 pygame.quit()
                 exit()
             if event.type ==pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        if przspieszenie>1:
+                            przspieszenie-=1
+                        else:
+                            przspieszenie=20
+                    if event.key == pygame.K_RIGHT:
+                        if przspieszenie<20:
+                            przspieszenie+=1
+                        else:
+                            przspieszenie=1
+                            
                     if event.key == pygame.K_SPACE:
-                        x_celownik, y_celownik = high_noon()
+                        x_celownik, y_celownik = high_noon(przspieszenie)
 
                         print(f"Celownik: ({x_celownik}, {y_celownik})")
 
@@ -122,6 +139,8 @@ while loop==True:
         
                             wynik = y_wnik + x_wnik
                             wynik -= OFFSET_SUBTRACT
+                            print(wynik,(wynik/przspieszenie/2))
+                            wynik=wynik+ (wynik/przspieszenie/2)
 
         
                             wynik = max(0, wynik)
